@@ -1,46 +1,52 @@
-import React, { useState } from "react";
-import Title from "./components/title/title";
-import Label from "./components/label/label";
-import Input from "../../commons/input/input";
-import axios from "axios";
-import "./Login.css";
+import React, { useState } from 'react'
+import Title from './components/title/title'
+import Label from './components/label/label'
+import Input from '../../commons/input/input'
+import axios from 'axios'
+import './Login.css'
 
 const Login = ({ history }) => {
-  const [user, setUser] = useState("");
-  const [password, setPassword] = useState("");
-  const [hasError, setHasError] = useState(false);
-  const url = "localhost:86827/"
+  const [user, setUser] = useState('')
+  const [password, setPassword] = useState('')
+  const [hasError, setHasError] = useState(false)
+  const url = 'http://localhost:8682/'
 
   function handleChange(name, value) {
-    if (name === "usuario") {
-      setUser(value);
+    if (name === 'usuario') {
+      setUser(value)
     } else {
-      setPassword(value);
+      setPassword(value)
     }
-    setHasError(false);
+    setHasError(false)
   }
 
   function ifMatch(param) {
-    const { user, password } = param;
-    let urlSend = url+'login';
-    let data = `{"username": ${user},"password": ${password} }`;
-    axios.post({
-      method: 'post', 
-      url: urlSend,
-      data: {
-        data
-      }}).then((response) =>{
-        localStorage.setItem("token", response.data.response);
-        history.push("/home");
-      }).catch((error)=>{
-        setHasError(true);
-      });
+    let data = {
+      username: param.user,
+      password: param.password,
+    }
+    let urlSend = url + 'login'
+    let config = {
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+      },
+    }
+    axios
+      .post(urlSend, data, config)
+      .then((response) => {
+        localStorage.setItem('token', response.data.response)
+        history.push('/home')
+      })
+      .catch((error) => {
+        setHasError(true)
+      })
   }
 
   function handleSubmit() {
-    let account = { user, password };
+    let account = { user, password }
     if (account) {
-      ifMatch(account);
+      ifMatch(account)
     }
   }
 
@@ -57,10 +63,10 @@ const Login = ({ history }) => {
           <Label text="User" />
           <Input
             attribute={{
-              id: "usuario",
-              name: "usuario",
-              type: "text",
-              placeholder: "Ingrese el usuario",
+              id: 'usuario',
+              name: 'usuario',
+              type: 'text',
+              placeholder: 'Ingrese el usuario',
             }}
             handleChange={handleChange}
           />
@@ -69,10 +75,10 @@ const Login = ({ history }) => {
           <Label text="Password" />
           <Input
             attribute={{
-              id: "contraseña",
-              name: "contraseña",
-              type: "password",
-              placeholder: "Ingrese la contraseña",
+              id: 'contraseña',
+              name: 'contraseña',
+              type: 'password',
+              placeholder: 'Ingrese la contraseña',
             }}
             handleChange={handleChange}
           />
@@ -83,7 +89,7 @@ const Login = ({ history }) => {
         </button>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Login;
+export default Login
