@@ -1,6 +1,6 @@
-.title-container label{
-    color: rgb(29, 105, 175);
-    font-size: 20px;
+.title-label{
+    color: #260120;
+    font-size: 40px;
     display: flex;
     justify-content: center;
     align-items: center;

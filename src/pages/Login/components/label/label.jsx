@@ -5,7 +5,7 @@ const Label = ({text})=>{
 
     return(
         <div> 
-            <label className='text-info'>{text}</label>
+            <label className='text'>{text}</label>
         </div>
     );
 }

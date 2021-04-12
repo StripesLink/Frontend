@@ -1,0 +1,15 @@
+#card{
+    background-color:#260120d8;
+    color: #F2E205
+}
+
+#card .card-header{
+    font-size: 35px;
+    background-color: #260120ec;
+    font-weight: 600;
+}
+
+#card .card-body{
+    align-self: center;
+    font-size: 20px;
+}

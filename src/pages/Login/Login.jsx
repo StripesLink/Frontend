@@ -4,12 +4,15 @@ import Label from './components/label/label'
 import Input from '../../commons/input/input'
 import axios from 'axios'
 import './Login.css'
+import {setToken} from "../../services/Session/Auth"
+import {url_login} from "../../services/api/apirest"
 
 const Login = ({ history }) => {
+
   const [user, setUser] = useState('')
   const [password, setPassword] = useState('')
   const [hasError, setHasError] = useState(false)
-  const url = 'http://localhost:8682/'
+
 
   function handleChange(name, value) {
     if (name === 'usuario') {
@@ -25,18 +28,12 @@ const Login = ({ history }) => {
       username: param.user,
       password: param.password,
     }
-    let urlSend = url + 'login'
-    let config = {
-      headers: {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*',
-      },
-    }
     axios
-      .post(urlSend, data, config)
+      .post(url_login, data)
       .then((response) => {
-        localStorage.setItem('token', response.data.response)
-        history.push('/home')
+        setToken(response.data.response);
+        document.cookie="Authorization = "+sessionStorage.getItem('token');
+        history.push('/salas')
       })
       .catch((error) => {
         setHasError(true)
@@ -84,7 +81,7 @@ const Login = ({ history }) => {
           />
         </div>
 
-        <button onClick={(e) => handleSubmit()} className="btn btn-info btn-md">
+        <button onClick={(e) => handleSubmit()} className="btn btn-md btn-block btn-dark" >
           Ingresar
         </button>
       </div>

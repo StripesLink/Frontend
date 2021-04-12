@@ -1,3 +1,6 @@
-.text-info{
+.text{
+    color:#590242;
     margin-top: 10px;
+    font-size: 25px;
+    font-weight: bold;
 }
