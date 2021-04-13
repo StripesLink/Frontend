@@ -19,11 +19,18 @@ function Home(props) {
     await axios
     .get(url_getPointsSala+`/${id}`)
     .then((response) =>{
-      console.log(response.data);
-      setPuntosAzul(response.data.azul);
+      if(response.data.rojo.length===0){
+        setfirstRojo(false);
+      }
       setPuntosRojos(response.data.rojo);
-      console.log(firstRojo)
-      console.log(firstAzul)
+      if(response.data.azul.length===0){
+        setfirstAzul(false)
+      }
+      setPuntosAzul(response.data.azul);
+
+      
+      //setfirstAzul(true);
+      //setfirstRojo(true);
     })
   }
 

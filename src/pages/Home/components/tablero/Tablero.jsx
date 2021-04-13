@@ -6,40 +6,28 @@ const Tablero = (props) => {
 
   const tablero = useRef(null);
 
-  const [tam, setTam] = useState(400)
-  const [puntos, setPuntos] = useState([{}])
-  
-  useEffect(() => {
-    console.log(nombre)
-    console.log(cargarPuntos)
-    if(cargarPuntos.length===0){
-      console.log("ssss")
-      cambiar()
-    }else{
-      let data = {"lines": cargarPuntos,"width":400,"height":400}
-      setPuntos(cargarPuntos) 
-      console.log(JSON.stringify(data))
-      tablero.current.loadSaveData(JSON.stringify(data));
-    }
-  }, [cargarPuntos]);
+  const [puntos, setPuntos] = useState([])
+  const [cont, setcont] = useState(0);
 
-  /*useEffect(() => {
-    const data = getDataString(nuevosPuntos);
-    console.log(data)
-    tablero.current.loadSaveData(data);
-  }, [nuevosPuntos]);*/
+
+  useEffect(()=>{
+    let data = {"lines": cargarPuntos,"width":400,"height":400}
+    setPuntos(cargarPuntos) 
+    tablero.current.loadSaveData(JSON.stringify(data));
+  },[cargarPuntos])
 
   const sendPoints = () =>{
-    console.log(first);
-    console.log(tablero.current.getSaveData());
     if(!first){
       const data = JSON.parse(tablero.current.getSaveData());
-      console.log(data)
       const dataSend = data.lines[data.lines.length -1];
       callback(dataSend)
     }else{
-      console.log("rrrr")
-      cambiar();
+      if(cont===cargarPuntos.length-1){
+        cambiar();
+      }else{
+        setcont(cont+1);
+      }
+      
     }
   }
   
