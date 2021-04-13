@@ -4,6 +4,7 @@ import {useParams} from 'react-router-dom';
 import Equipo from './components/Equipo/Equipo';
 import axios from 'axios';
 import {url_getPointsSala} from '../../services/api/apirest'
+import { ShieldFillX } from "react-bootstrap-icons";
 
 function Home(props) {
 
@@ -11,6 +12,8 @@ function Home(props) {
 
   const [puntosRojos, setPuntosRojos] = useState([])
   const [puntosAzul, setPuntosAzul] = useState([])
+  const [firstRojo, setfirstRojo] = useState(true)
+  const [firstAzul, setfirstAzul] = useState(true)
 
   const obtenerUsuario = async()=>{
     await axios
@@ -18,13 +21,22 @@ function Home(props) {
     .then((response) =>{
       console.log(response.data);
       setPuntosAzul(response.data.azul);
-      setPuntosRojos(response.data.rojo)
+      setPuntosRojos(response.data.rojo);
+      console.log(firstRojo)
+      console.log(firstAzul)
     })
   }
 
   useEffect(() => {
     obtenerUsuario();
   }, []);
+
+  const cambiar1 = () =>{
+    setfirstAzul(false);
+  }
+  const cambiar2 = () =>{
+    setfirstRojo(false);
+  }
 
   return (
     <div className="container mt-4">
@@ -35,12 +47,16 @@ function Home(props) {
           idSala={id} 
           bloquear={equipo==='Rojo'?false:true} 
           cargarPuntos={puntosRojos}
+          first={firstRojo}
+          cambiar={cambiar2}
         />
         <Equipo 
           nameTeam="azul" 
           idSala={id} 
           bloquear={equipo==='Azul'?false:true}
           cargarPuntos={puntosAzul}
+          first={firstAzul}
+          cambiar={cambiar1}
         />
       </div>
       <Chat />

@@ -7,7 +7,7 @@ import {url_websocket, url_getPointsSala} from '../../../../services/api/apirest
 
 const Equipo = (props) => {
 
-    const {nameTeam, idSala, bloquear, cargarPuntos} = props;
+    const {nameTeam, idSala, bloquear, cargarPuntos, first, cambiar} = props;
 
     let clientRef = useRef(null);
 
@@ -44,7 +44,7 @@ const Equipo = (props) => {
         <div className="equipo">
             <SockJsClient url={url_websocket} 
             topics={[`/topic/Sala.${idSala}.${nameTeam}`]}
-            headers={{ 'Authorization': `Bearer ${sessionStorage.getItem('token')}`}}
+            headers={{ 'Authorization': `Bearer ${getToken()}`}}
             onMessage={ onMessageReceive }
             ref={(client) => { clientRef = client}} 
             onConnect={()=>console.log("Connection established!")} 
@@ -53,10 +53,13 @@ const Equipo = (props) => {
             />
           
             <h2 style={divStyle}>Equipo {nameTeam}</h2>
-            <Tablero 
+            <Tablero
+            nombre = {nameTeam}
+              first={first}
               bloquear={bloquear}
               callback={sendMessage} 
               cargarPuntos={cargarPuntos}
+              cambiar={cambiar}
             />
         </div>
     )

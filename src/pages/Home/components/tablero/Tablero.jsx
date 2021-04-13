@@ -2,22 +2,25 @@ import React, {useRef, useEffect, useState} from "react";
 import CanvasDraw from "react-canvas-draw";
 
 const Tablero = (props) => {
-  const {callback, cargarPuntos, nuevosPuntos, bloquear} = props;
+  const {callback, cargarPuntos, nuevosPuntos, bloquear, first, cambiar, nombre} = props;
 
   const tablero = useRef(null);
 
   const [tam, setTam] = useState(400)
-  const [estaCargado, setestaCargado] = useState(false);
-  const [puntos, setPuntos] = useState([])
+  const [puntos, setPuntos] = useState([{}])
   
   useEffect(() => {
+    console.log(nombre)
     console.log(cargarPuntos)
-    let data = {"lines": cargarPuntos}
-    setPuntos(data)
-    console.log(puntos)
-    console.log(data)
-    tablero.current.loadSaveData(JSON.stringify(data));
-    setestaCargado(true);
+    if(cargarPuntos.length===0){
+      console.log("ssss")
+      cambiar()
+    }else{
+      let data = {"lines": cargarPuntos,"width":400,"height":400}
+      setPuntos(cargarPuntos) 
+      console.log(JSON.stringify(data))
+      tablero.current.loadSaveData(JSON.stringify(data));
+    }
   }, [cargarPuntos]);
 
   /*useEffect(() => {
@@ -27,15 +30,17 @@ const Tablero = (props) => {
   }, [nuevosPuntos]);*/
 
   const sendPoints = () =>{
-    console.log(estaCargado);
+    console.log(first);
     console.log(tablero.current.getSaveData());
-    if(estaCargado){
+    if(!first){
       const data = JSON.parse(tablero.current.getSaveData());
       console.log(data)
       const dataSend = data.lines[data.lines.length -1];
       callback(dataSend)
+    }else{
+      console.log("rrrr")
+      cambiar();
     }
-    setestaCargado(true);
   }
   
   

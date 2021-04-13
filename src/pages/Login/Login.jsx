@@ -32,7 +32,7 @@ const Login = ({ history }) => {
       .post(url_login, data)
       .then((response) => {
         setToken(response.data.response);
-        document.cookie="Authorization = "+sessionStorage.getItem('token');
+        //document.cookie="Authorization = "+sessionStorage.getItem('token');
         history.push('/salas')
       })
       .catch((error) => {
