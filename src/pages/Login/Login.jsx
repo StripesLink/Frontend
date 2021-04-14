@@ -31,8 +31,8 @@ const Login = ({ history }) => {
     axios
       .post(url_login, data)
       .then((response) => {
+        sessionStorage.setItem('userID', user);
         setToken(response.data.response);
-        //document.cookie="Authorization = "+sessionStorage.getItem('token');
         history.push('/salas')
       })
       .catch((error) => {

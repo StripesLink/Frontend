@@ -13,8 +13,9 @@ const Sala = (props) => {
         axios
         .put(url_addUserSala+"/"+id)
         .then((response) => {
+            console.log(response)
             his.push(`/home/${id}/${response.data.response}`);
-            alert(response.data);
+            
         })
         .catch((error) => {
           alert("Error");

@@ -1,56 +1,59 @@
-import { List } from '@material-ui/core';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Input from "../../../../commons/input/input";
+import './chat.css'
 
 
-const Chat = ()=>{
-    const [messages, setMessages] = useState([
-        {id:0,text:"prueba1"},
-        {id:1,text:"prueba2"}
-    ]);
+const ChatE = (props) => {
+
+    const { callback, newMessage } = props;
+
+    const [messages, setMessages] = useState([]);
     const [message, setMessage] = useState("");
 
+    useEffect(() => {
+        if (newMessage !== "") {
+            console.log(typeof (newMessage));
+            setMessages([...messages, newMessage]);
+        }
+    }, [newMessage])
 
-
-    function updateMessage(mes, value){
-        if(mes==='mensaje'){
+    function updateMessage(mes, value) {
+        if (mes === 'mensaje') {
             setMessage(value);
         }
     }
 
-    function handleSend(){
-        
-        const listM = messages;
-        const newMessage = {
-            id: messages.length,
-            text:message
-        }
-        listM.push(newMessage);
-        setMessages([...listM]);
-        console.log(messages);
+    function handleSend() {
+        callback(message, 'chat')
+        setMessage('')
     }
 
     return (
         <div>
             <h2>Chatroom</h2>
-            <ol>
-                { messages.map((mess)=><li key={mess.id}>{mess.text}</li>)}
-            </ol>
+            <div className="mensajes">
+                <ol>
+                    {messages.map((mess) => <ul>{mess}</ul>)}
+                </ol>
+            </div>
             <div>
-                <Input
-                 attribute={{
-                id: "mensaje",
-                name: "mensaje",
-                type: "text",
-                placeholder: "Mensaje...",
-                }}
-                handleChange={updateMessage}/>
+            <input
+                    id="mensaje"
+                    name="mensaje"
+                    placeholder="Escriba su mensaje"
+                    type="text"
+                    autocomplete="off"
+                    value={message}
+                    onChange={(e) => updateMessage(e.target.name, e.target.value)}
+                    className='regular-style'
+                />
+
                 <button onClick={(e) => handleSend()}>
                     Enviar
                 </button>
             </div>
-    </div>
+        </div>
     );
 }
 
-export default Chat;
+export default ChatE;
