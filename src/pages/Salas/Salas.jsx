@@ -29,8 +29,8 @@ const Salas = ({ history }) => {
       <div className="container">
          <div className="row row-cols-1 row-cols-sm-2 row-cols-md-4">
         {
-            listaSalas.map((item, index) =>{
-                return <Sala id={item.idSala} numUsers={item.numUsers} numSala={index+1} his={history}/>}
+            listaSalas.map((item, index) =>
+                <Sala key={item.idSala} id={item.idSala} numUsers={item.numUsers} numSala={index+1} his={history}/>
             )
         }
          </div>

@@ -1,15 +1,20 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useParams } from 'react-router-dom';
 import Equipo from './components/Equipo/Equipo';
 import axios from 'axios';
+import SockJsClient from 'react-stomp';
 import "./Home.css";
 import { url_getPointsSala, url_getRonda, url_salirSala } from '../../services/api/apirest'
 import Tematica from "./components/tematica/Tematica";
+import { getToken } from '../../services/Session/Auth'
+import { url_websocket } from '../../services/api/apirest';
+import Titulo from "./components/Titulo/Titulo";
 
-function Home(props) {
+function Home({history}) {
 
-  const { id, equipo } = useParams();
+  const { id, equipo} = useParams();
 
+  let clientRef = useRef(null);
   const [puntosRojos, setPuntosRojos] = useState([])
   const [puntosAzul, setPuntosAzul] = useState([])
   const [firstRojo, setfirstRojo] = useState(true)
@@ -36,17 +41,8 @@ function Home(props) {
       })
   }
 
-  const obtenerDatosSala = () => {
-    axios
-      .get(url_getRonda + `/${id}`)
-      .then((response) => {
-        validarTematica(response.data)
-      })
-  }
-
   useEffect(() => {
     obtenerPuntos();
-    obtenerDatosSala();
   }, []);
 
   const cambiar1 = () => {
@@ -58,7 +54,7 @@ function Home(props) {
 
 
   const validarTematica = (data) => {
-    const { idTemtica, nameTematica, palabraAzul, palabraRojo, pintorAzul, pintorRojo }
+    const {nameTematica, palabraAzul, palabraRojo, pintorAzul, pintorRojo }
       = data;
 
     var pintor = false;
@@ -68,7 +64,6 @@ function Home(props) {
     }
 
     setdatosSala({
-      idTematica: idTemtica,
       nameTematica: nameTematica,
       palabra: palabra,
       esPintor: pintor
@@ -76,26 +71,55 @@ function Home(props) {
 
   }
 
-  const salirSala = ()=>{
-    axios
-      .put(`${url_salirSala}/${id}`)
-      .then((response) => {
-        props.history.push('/salas')
-      })
+
+  const onMessageReceive = (msg, topic) => {
+    if(topic===`/topic/Sala.${id}.Ganador`){
+      validarTematica(msg.ronda)
+      alert("El juego termino!, el ganador es : "+msg.username)
+    }else if(topic === `/topic/Sala.${id}`){
+      if(msg!==""){
+        validarTematica(msg)
+      }else{
+        setdatosSala({
+          idTematica: "",
+          nameTematica: "",
+          palabra: "",
+          esPintor: false
+        })
+      }
+      
+    }
+  }
+
+  const handleConnection = (msg) =>{
+    clientRef.sendMessage(`/app/users.${id}`, JSON.stringify(msg),
+        { 'Authorization': `Bearer ${getToken()}` })
+    console.log("enviando ACK...")
   }
 
   return (
     <div id="home" className="container mt-4">
-        <div className="titulo row">
-            <h1 className="col-11">StripesLink</h1>
-            <button 
-              className="col-1 btn btn-outline-danger"
-              onClick={salirSala}
-            >Salir</button>
-        </div>
+        <SockJsClient url={url_websocket}
+          topics={
+            [
+              `/topic/Sala.${id}.Ganador`,
+              `/topic/Sala.${id}`
+            ]
+          }
+          headers={{ 'Authorization': `Bearer ${getToken()}` }}
+          ref={(client) => { clientRef = client }}
+          onMessage={onMessageReceive}
+          onConnect={() => handleConnection('Connect')}
+          onDisconnect={()=>console.log("saliendo...")}
+          debug={false}
+        />
+
+        <Titulo 
+          history = {history}
+          id = {id}
+          callback = {handleConnection}
+        />
           
-       
-     
       <div className="row mt-4">
         <Equipo
           nameTeam="Rojo"

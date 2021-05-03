@@ -69,6 +69,7 @@ const Tablero = (props) => {
       <ChatE 
         newMessage = {newMessage}
         callback = {callback}
+        bloquear = {bloquear}
       />
     </div>
   );

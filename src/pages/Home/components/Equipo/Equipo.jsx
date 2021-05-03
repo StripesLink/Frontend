@@ -3,7 +3,7 @@ import SockJsClient from 'react-stomp';
 import Tablero from "../tablero/Tablero";
 import './Equipo.css';
 import { getToken } from '../../../../services/Session/Auth'
-import { url_websocket, url_getPointsSala } from '../../../../services/api/apirest';
+import { url_websocket } from '../../../../services/api/apirest';
 
 const Equipo = (props) => {
 
@@ -16,6 +16,7 @@ const Equipo = (props) => {
   const onMessageReceive = (msg, topic) => {
     if(topic===`/topic/Sala.${idSala}.${nameTeam}`){
       setnewLine(msg);
+      console.log(msg)
     }if(topic===`/topic/Chat.${idSala}.${nameTeam}`){
       setNewMessage(msg);
     }if(topic===`/topic/Sala.${idSala}.Ganador`){
@@ -41,13 +42,12 @@ const Equipo = (props) => {
 
 
   return (
-    <div className="col">
-      <div className="equipo">
+    <div className="col equipo">
+      <div>
         <SockJsClient url={url_websocket}
           topics={
             [`/topic/Sala.${idSala}.${nameTeam}`,
-            `/topic/Chat.${idSala}.${nameTeam}`,
-            `/topic/Sala.${idSala}.Ganador`]
+            `/topic/Chat.${idSala}.${nameTeam}`]
           }
           headers={{ 'Authorization': `Bearer ${getToken()}` }}
           onMessage={onMessageReceive}

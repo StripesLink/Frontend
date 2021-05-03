@@ -1,18 +1,21 @@
 #tematica {
     background-color:#260120e3;
     color: #F2E205;
+    width: 250px;
     margin-top: 200px;
-    
+    margin-left: 0px;
+    box-sizing: border-box;
 }
 
 #tematica .card-header{
-    
     background-color: #260120f6;
     align-self: center;
     width: 140px;
     text-align: center;
+    
 }
 
 #tematica .card-body{
+    padding: 10px;
     align-self: center;
 }

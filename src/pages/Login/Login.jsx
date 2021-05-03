@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
-import Title from './components/title/title'
-import Label from './components/label/label'
 import Input from '../../commons/input/input'
+import Label from '../../commons/label/label'
+import Title from '../../commons/title/title'
 import axios from 'axios'
 import './Login.css'
 import {setToken} from "../../services/Session/Auth"
 import {url_login} from "../../services/api/apirest"
+import { Link } from 'react-router-dom'
 
 const Login = ({ history }) => {
 
@@ -63,7 +64,7 @@ const Login = ({ history }) => {
               id: 'usuario',
               name: 'usuario',
               type: 'text',
-              placeholder: 'Ingrese el usuario',
+              placeholder: 'Enter the new user',
             }}
             handleChange={handleChange}
           />
@@ -75,15 +76,19 @@ const Login = ({ history }) => {
               id: 'contraseña',
               name: 'contraseña',
               type: 'password',
-              placeholder: 'Ingrese la contraseña',
+              placeholder: 'Enter the new password',
             }}
             handleChange={handleChange}
           />
         </div>
 
         <button onClick={(e) => handleSubmit()} className="btn btn-md btn-block btn-dark" >
-          Ingresar
+          Log In
         </button>
+          
+        
+        <Link className="btn btn-md btn-block btn-dark" to='/CreateUser'>Create User</Link>
+
       </div>
     </div>
   )

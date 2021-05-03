@@ -1,7 +1,5 @@
-import React,{useEffect, useState} from 'react';
+import React from 'react';
 import './Tematica.css';
-import {url_tematica} from '../../../../services/api/apirest'
-import axios from 'axios';
 
 
 const Tematica = (props) => {

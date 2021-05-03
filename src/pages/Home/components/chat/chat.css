@@ -4,3 +4,13 @@
     overflow: auto;
     overflow-y: scroll;
 }
+
+.otro{
+    background-color: rgba(216, 196, 205, 0.747);
+    height: 150px;
+    overflow: auto;
+    overflow-y: scroll;
+}
+.chat{
+    margin-top: 30px;
+}

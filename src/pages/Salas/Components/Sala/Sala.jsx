@@ -13,9 +13,7 @@ const Sala = (props) => {
         axios
         .put(url_addUserSala+"/"+id)
         .then((response) => {
-            console.log(response)
             his.push(`/home/${id}/${response.data.response}`);
-            
         })
         .catch((error) => {
           alert("Error");
@@ -44,7 +42,6 @@ const Sala = (props) => {
                         <p>{numUsers}</p>
                     </div>
                     
-
                     <button 
                         onClick={entrarSala} 
                         className="btn btn-outline-warning"
