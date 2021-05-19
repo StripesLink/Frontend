@@ -4,7 +4,7 @@ import Equipo from './components/Equipo/Equipo';
 import axios from 'axios';
 import SockJsClient from 'react-stomp';
 import "./Home.css";
-import { url_getPointsSala, url_getRonda, url_salirSala } from '../../services/api/apirest'
+import { url_getPointsSala } from '../../services/api/apirest'
 import Tematica from "./components/tematica/Tematica";
 import { getToken } from '../../services/Session/Auth'
 import { url_websocket } from '../../services/api/apirest';

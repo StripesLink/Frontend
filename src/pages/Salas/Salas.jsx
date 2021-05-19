@@ -4,7 +4,6 @@ import axios from 'axios'
 import {url_getSalas} from '../../services/api/apirest'
 
 const Salas = ({ history }) => {
-  const [numSalas, setnumSalas] = useState(0);
 
   const [listaSalas, setlistaSalas] = useState([]);
 

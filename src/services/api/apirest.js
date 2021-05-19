@@ -1,5 +1,5 @@
-//export const url = "https://stripeslink.herokuapp.com/";
-export const url = "http://localhost:8080/";
+export const url = "https://stripeslink.herokuapp.com/";
+//export const url = "http://localhost:8080/";
 
 export const url_login = url + "login";
 
