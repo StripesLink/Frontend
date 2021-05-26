@@ -26,6 +26,9 @@ function Home({history}) {
     esPintor: false
   })
 
+  let limpiar1;
+  let limpiar2;
+
   const obtenerPuntos = async () => {
     await axios
       .get(url_getPointsSala + `/${id}`)
@@ -71,11 +74,20 @@ function Home({history}) {
 
   }
 
+  const limp1 = (calLimpiar)=>{
+    limpiar1 = calLimpiar
+  }
+  const limp2 = (calLimpiar)=>{
+    limpiar2 = calLimpiar
+  }
+
 
   const onMessageReceive = (msg, topic) => {
     if(topic===`/topic/Sala.${id}.Ganador`){
       validarTematica(msg.ronda)
       alert("El juego termino!, el ganador es : "+msg.username)
+      limpiar1()
+      limpiar2()
     }else if(topic === `/topic/Sala.${id}`){
       if(msg!==""){
         validarTematica(msg)
@@ -128,6 +140,7 @@ function Home({history}) {
           cargarPuntos={puntosRojos}
           first={firstRojo}
           cambiar={cambiar2}
+          limpiar={limp1}
         />
         <Tematica
           datos={datosSala}
@@ -139,6 +152,7 @@ function Home({history}) {
           cargarPuntos={puntosAzul}
           first={firstAzul}
           cambiar={cambiar1}
+          limpiar={limp2}
         />
       </div>
 

@@ -7,22 +7,22 @@ import { url_websocket } from '../../../../services/api/apirest';
 
 const Equipo = (props) => {
 
-  const { nameTeam, idSala, bloquear, cargarPuntos, first, cambiar } = props;
+  const { nameTeam, idSala, bloquear, cargarPuntos, first, cambiar ,limpiar} = props;
 
   let clientRef = useRef(null);
+
   const [newLine, setnewLine] = useState({})
   const [newMessage, setNewMessage] = useState("")
+  
 
   const onMessageReceive = (msg, topic) => {
+    
     if(topic===`/topic/Sala.${idSala}.${nameTeam}`){
       setnewLine(msg);
-      console.log(msg)
     }if(topic===`/topic/Chat.${idSala}.${nameTeam}`){
       setNewMessage(msg);
-    }if(topic===`/topic/Sala.${idSala}.Ganador`){
-      console.log(msg)
-      alert("El juego termino!, el ganador es : "+msg.username)
     }
+
   }
 
   const sendMessage = (data, send) => {
@@ -39,6 +39,8 @@ const Equipo = (props) => {
   const divStyle = {
     background: nameTeam === 'Rojo' ? 'red' : 'blue'
   };
+
+  
 
 
   return (
@@ -67,6 +69,7 @@ const Equipo = (props) => {
           cambiar={cambiar}
           newLine={newLine}
           newMessage={newMessage}
+          limpiar={limpiar}
         />
       </div>
     </div>

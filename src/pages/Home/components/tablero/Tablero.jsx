@@ -4,7 +4,7 @@ import ChatE from "../chat/chat";
 import './Tablero.css'
 
 const Tablero = (props) => {
-  const { callback, cargarPuntos, newLine, bloquear, first, cambiar, nombre, newMessage } = props;
+  const { callback, cargarPuntos,limpiar, newLine, bloquear, first, cambiar, newMessage } = props;
 
   const tablero = useRef(null);
 
@@ -30,6 +30,17 @@ const Tablero = (props) => {
     setPuntos(cargarPuntos)
     tablero.current.loadSaveData(JSON.stringify(data));
   }, [cargarPuntos])
+
+  useEffect(() => {
+    limpiar(funLimpiar)
+    console.log(limpiar)
+  }, [limpiar])
+
+  const funLimpiar = () => {
+    console.log("Estamos limpiandoo")
+    tablero.current.clear()
+    setPuntos([])
+  }
 
   const sendPoints = () => {
     if (primero) {
@@ -59,7 +70,7 @@ const Tablero = (props) => {
     <div >
       <div className="tablero">
         <CanvasDraw
-          brushRadius={1}
+          brushRadius={4}
           style={{ border: "1px solid #000" }}
           ref={tablero}
           disabled={bloquear}
